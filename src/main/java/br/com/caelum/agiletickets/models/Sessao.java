@@ -87,22 +87,10 @@ public class Sessao {
 	}
 
 	public Integer getIngressosDisponiveis() {
-		// faz a conta de total de ingressos menos ingressos reservados
 		return totalIngressos - ingressosReservados;
 	}
 	
-	// Era usada antes no sistema para avisar o cliente de que
-    // os ingressos estavam acabando!
-    // Hoje nao serve pra nada, mas eh sempre bom ter
-    // um backup guardado! ;)
-    public boolean pertoDoLimiteDeSeguranca_NaoUtilizada()
-    {
-            int limite = 3;
-            return getIngressosDisponiveis() > limite;
-    }
-
 	public void reserva(Integer numeroDeIngressos) {
-		// soma quantidade na variavel ingressos reservados
 		this.ingressosReservados += numeroDeIngressos;
 	}
 
@@ -116,6 +104,36 @@ public class Sessao {
 	public double getPercentualIngressosDisponiveis() {
 		return this.getIngressosDisponiveis() / this.getTotalIngressos().doubleValue();
 	}
+	
+	public boolean isDuracaoDoEspetaculoDentroDoLimite() {
+		return this.getDuracaoEmMinutos() <= this.getEspetaculo().getTipo().getLimiteDuracao();
+	}
+	
+	public boolean isPercentualIngressosDisponiveisDentroDoLimite() {
+		return this.getPercentualIngressosDisponiveis() <= this.getEspetaculo().getTipo().getLimitePercentual();
+	}
+
+	public BigDecimal getPrecoDoEspetaculo() {
+		BigDecimal preco;
+		TipoDeEspetaculo tipoDeEspetaculo = this.getEspetaculo().getTipo();
+		
+		if(this.isPercentualIngressosDisponiveisDentroDoLimite()) { 
+			preco = this.getPreco().add(this.getPreco().multiply(tipoDeEspetaculo.getAliquotaDePreco()));
+		} else {
+			preco = this.getPreco();
+		}
+		
+		if(this.getDuracaoEmMinutos() != null && !this.isDuracaoDoEspetaculoDentroDoLimite()){
+			preco = preco.add(this.getPreco().multiply(BigDecimal.valueOf(0.10)));
+		}
+		
+		return preco;
+	}
+	
+	public BigDecimal getPrecoTotalPelaQuantidade(Integer quantidade) {
+		BigDecimal preco = this.getPrecoDoEspetaculo();
+		return preco.multiply(BigDecimal.valueOf(quantidade));
+	}
 
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
@@ -124,5 +142,4 @@ public class Sessao {
 	public BigDecimal getPreco() {
 		return preco;
 	}
-	
 }
