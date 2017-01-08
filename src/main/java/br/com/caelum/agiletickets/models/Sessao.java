@@ -112,6 +112,10 @@ public class Sessao {
 
         return !naoTemEspaco;
 	}
+	
+	public double getPercentualIngressosDisponiveis() {
+		return this.getIngressosDisponiveis() / this.getTotalIngressos().doubleValue();
+	}
 
 	public void setPreco(BigDecimal preco) {
 		this.preco = preco;

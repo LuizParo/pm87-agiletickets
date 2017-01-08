@@ -38,4 +38,12 @@ public class SessaoTest {
 		Assert.assertEquals(2, sessao.getIngressosDisponiveis().intValue());
 	}
 	
+	@Test
+	public void devePossuir5PorCentroDeIngressosDisponiveisCom10IngressosE5Reservados() throws Exception {
+		Sessao sessao = new Sessao();
+		sessao.setTotalIngressos(10);
+		sessao.reserva(5);
+		
+		Assert.assertEquals(0.5, sessao.getPercentualIngressosDisponiveis(), 0.001);
+	}
 }
