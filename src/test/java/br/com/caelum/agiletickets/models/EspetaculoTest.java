@@ -1,6 +1,9 @@
 package br.com.caelum.agiletickets.models;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -88,6 +91,25 @@ public class EspetaculoTest {
 		assertNotNull(sessoes);
 		assertFalse(sessoes.isEmpty());
 		assertEquals(1, sessoes.size());
+	}
+	
+	@Test
+	public void deveCriarSessoesDiariasEmDiasDiferentes() {
+		Espetaculo espetaculo = new Espetaculo();
+		
+		LocalDate inicio = LocalDate.now();
+		LocalDate fim = inicio.plusDays(1);
+		LocalTime horario = LocalTime.now();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
+		assertNotNull(sessoes);
+		assertFalse(sessoes.isEmpty());
+		assertEquals(2, sessoes.size());
+		
+		Sessao sessaoPrimeiroDia = sessoes.get(0);
+		Sessao sessaoSegundoDia = sessoes.get(1);
+		
+		assertEquals(1, sessaoSegundoDia.getInicio().getDayOfYear() - sessaoPrimeiroDia.getInicio().getDayOfYear());
 	}
 	
 	private Sessao sessaoComIngressosSobrando(int quantidade) {

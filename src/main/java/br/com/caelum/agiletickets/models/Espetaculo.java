@@ -99,11 +99,12 @@ public class Espetaculo {
      * Repare que a data da primeira sessao é sempre a data inicial.
      */
 	public List<Sessao> criaSessoes(LocalDate inicio, LocalDate fim, LocalTime horario, Periodicidade periodicidade) {
-		int numeroSessoes = inicio.getDayOfYear() - fim.getDayOfYear();
+		int numeroSessoes = fim.getDayOfYear() - inicio.getDayOfYear();
 		List<Sessao> sessoes = new ArrayList<Sessao>();
 		
 		for (int i = 0; i <= numeroSessoes; i++) {
 			Sessao sessao = new Sessao();
+			sessao.setInicio(inicio.toDateTime(horario).plusDays(i));
 			sessoes.add(sessao);
 		}
 		
