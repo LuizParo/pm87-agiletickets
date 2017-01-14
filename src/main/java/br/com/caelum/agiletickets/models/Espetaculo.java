@@ -99,14 +99,26 @@ public class Espetaculo {
      * Repare que a data da primeira sessao é sempre a data inicial.
      */
 	public List<Sessao> criaSessoes(LocalDate inicio, LocalDate fim, LocalTime horario, Periodicidade periodicidade) {
-		int numeroSessoes = fim.getDayOfYear() - inicio.getDayOfYear();
 		List<Sessao> sessoes = new ArrayList<Sessao>();
 		
-		for (int i = 0; i <= numeroSessoes; i++) {
-			Sessao sessao = new Sessao();
-			sessao.setInicio(inicio.toDateTime(horario).plusDays(i));
-			sessoes.add(sessao);
+		if(periodicidade == Periodicidade.DIARIA) {
+			int numeroSessoes = fim.getDayOfYear() - inicio.getDayOfYear();
+			for (int i = 0; i <= numeroSessoes; i++) {
+				Sessao sessao = new Sessao();
+				sessao.setInicio(inicio.toDateTime(horario).plusDays(i));
+				sessoes.add(sessao);
+			}
+		} else {
+			double semanas = (fim.getDayOfYear() - inicio.getDayOfYear() + 1) / 7;
+			double numeroSessoes = Math.ceil(semanas);
+			
+			for (double i = 0; i <= numeroSessoes; i++) {
+				Sessao sessao = new Sessao();
+				sessao.setInicio(inicio.toDateTime(horario).plusWeeks((int) i));
+				sessoes.add(sessao);
+			}
 		}
+		
 		
 		return sessoes;
 	}

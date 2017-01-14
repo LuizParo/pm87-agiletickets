@@ -112,6 +112,21 @@ public class EspetaculoTest {
 		assertEquals(1, sessaoSegundoDia.getInicio().getDayOfYear() - sessaoPrimeiroDia.getInicio().getDayOfYear());
 	}
 	
+	@Test
+	public void deveCriar1SessaoSemanalComDatasDiferentesComMenosDeUmaSemanaEntreAmbas() {
+		Espetaculo espetaculo = new Espetaculo();
+		
+		LocalDate inicio = LocalDate.now();
+		LocalDate fim = inicio.plusDays(3);
+		LocalTime horario = LocalTime.now();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
+		
+		assertNotNull(sessoes);
+		assertFalse(sessoes.isEmpty());
+		assertEquals(1, sessoes.size());
+	}
+	
 	private Sessao sessaoComIngressosSobrando(int quantidade) {
 		Sessao sessao = new Sessao();
 		sessao.setTotalIngressos(quantidade * 2);
