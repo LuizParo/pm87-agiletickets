@@ -89,7 +89,7 @@ public class EspetaculoTest {
 		assertFalse(sessoes.isEmpty());
 		assertEquals(1, sessoes.size());
 	}
-
+	
 	private Sessao sessaoComIngressosSobrando(int quantidade) {
 		Sessao sessao = new Sessao();
 		sessao.setTotalIngressos(quantidade * 2);
