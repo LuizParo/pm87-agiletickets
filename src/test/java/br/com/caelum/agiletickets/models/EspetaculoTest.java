@@ -113,7 +113,7 @@ public class EspetaculoTest {
 	}
 	
 	@Test
-	public void deveCriar1SessaoSemanalComDatasDiferentesComMenosDeUmaSemanaEntreAmbas() {
+	public void deveCriar1SessaoSemanalEmDatasDiferentesComMenosDeUmaSemanaEntreAmbas() {
 		Espetaculo espetaculo = new Espetaculo();
 		
 		LocalDate inicio = LocalDate.now();
@@ -125,6 +125,21 @@ public class EspetaculoTest {
 		assertNotNull(sessoes);
 		assertFalse(sessoes.isEmpty());
 		assertEquals(1, sessoes.size());
+	}
+	
+	@Test
+	public void deveCriar2SesssoesSemanaisEmDatasDiferentesComMaisDeUmaSemanaEntreAmbas() {
+		Espetaculo espetaculo = new Espetaculo();
+		
+		LocalDate inicio = LocalDate.now();
+		LocalDate fim = inicio.plusDays(8);
+		LocalTime horario = LocalTime.now();
+		
+		List<Sessao> sessoes = espetaculo.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
+		
+		assertNotNull(sessoes);
+		assertFalse(sessoes.isEmpty());
+		assertEquals(2, sessoes.size());
 	}
 	
 	private Sessao sessaoComIngressosSobrando(int quantidade) {

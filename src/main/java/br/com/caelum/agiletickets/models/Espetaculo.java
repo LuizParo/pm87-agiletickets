@@ -2,6 +2,7 @@ package br.com.caelum.agiletickets.models;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -104,8 +105,9 @@ public class Espetaculo {
 		if(periodicidade == Periodicidade.DIARIA) {
 			int numeroSessoes = fim.getDayOfYear() - inicio.getDayOfYear();
 			for (int i = 0; i <= numeroSessoes; i++) {
-				Sessao sessao = new Sessao();
+				Sessao sessao = this.criaSessao();
 				sessao.setInicio(inicio.toDateTime(horario).plusDays(i));
+				
 				sessoes.add(sessao);
 			}
 		} else {
@@ -113,14 +115,24 @@ public class Espetaculo {
 			double numeroSessoes = Math.ceil(semanas);
 			
 			for (double i = 0; i <= numeroSessoes; i++) {
-				Sessao sessao = new Sessao();
+				Sessao sessao = this.criaSessao();
 				sessao.setInicio(inicio.toDateTime(horario).plusWeeks((int) i));
+				
 				sessoes.add(sessao);
 			}
 		}
 		
-		
 		return sessoes;
+	}
+
+	private Sessao criaSessao() {
+		Sessao sessao = new Sessao();
+		sessao.setDuracaoEmMinutos(180);
+		sessao.setPreco(new BigDecimal("50.00"));
+		sessao.setEspetaculo(this);
+		sessao.setTotalIngressos(100);
+		sessoes.add(sessao);
+		return sessao;
 	}
 	
 	public boolean Vagas(int qtd, int min)
