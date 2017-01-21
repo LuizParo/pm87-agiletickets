@@ -33,7 +33,7 @@
 	
 		<p>
 			<span class="label">Preco:</span>
-			<fmt:formatNumber type="currency" value="${sessao.preco}" />
+			<fmt:formatNumber type="currency" value="${sessao.precoDoEspetaculo}" />
 		</p>
 	
 		<p>

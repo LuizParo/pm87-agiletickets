@@ -1,5 +1,7 @@
 package br.com.caelum.agiletickets.acceptance;
 
+import java.io.File;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,6 +19,7 @@ public class EstabelecimentoTest {
 
 	@BeforeClass
 	public static void abreBrowser() {
+		System.setProperty("webdriver.gecko.driver", getDriver());
 		browser = new FirefoxDriver();
 	}
 
@@ -73,6 +76,11 @@ public class EstabelecimentoTest {
 		estabelecimentos.adicioneEstabelecimentoComEstacionamento(false);
 
 		estabelecimentos.ultimaLinhaDeveTerEstacionamento(false);
+	}
+	
+	private static String getDriver() {
+        ClassLoader classLoader = EstabelecimentoTest.class.getClassLoader();
+        return new File(classLoader.getResource("geckodriver").getFile()).getPath();
 	}
 	
 }
